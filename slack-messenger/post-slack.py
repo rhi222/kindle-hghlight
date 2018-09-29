@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-# import slackweb
+import slackweb
 import os
 import json
 # from pprint import pprint
@@ -13,6 +13,12 @@ import random
 
 # 表示するハイライトの情報数
 display_highilight_number = 3
+slack_conf = {
+        "webhook_url": 'https://hooks.slack.com/services/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',  # noqa: E501
+    "channel": "#zzz_nishiyama_test",
+    "username": "jira_bot",
+    "icon": ":jira2:"
+}
 
 
 def get_kindle_data():
@@ -52,12 +58,48 @@ def get_highilights_info(highlights, display_highilight_number):
 
 
 def create_message(post_info):
+    '''
+    slackに投稿する文字列を生成
+    '''
+    highlights_message = '\n'.join(map(
+        # lambda h: "- {text}".format(text=h['text'].encode('utf-8')),
+        lambda h: "- <{deep_link}|{text}>".format(
+            text=h['text'].encode('utf-8'),
+            deep_link="kindle://book?action=open&asin={asin}&location={location}"  # noqa: E501
+                .format(
+                    asin=post_info['book']['asin'],
+                    location=h['location'],
+                )
+        ),
+        post_info['highlights']
+    ))
     message = '''
     ■ {book_title}
+    {highlights_message}
     '''.format(
-        book_title=post_info['book']['title']
+        book_title=post_info['book']['title'].encode('utf-8'),
+        highlights_message=highlights_message
     )
     return message
+
+
+# todo: logic切り出し
+def create_highlight_message(highlight, book_info):
+    return
+
+
+def post_slack(slack_messeage, slack_conf):
+    '''
+    confファイルで指定された内容でslackに投稿
+    '''
+    slack = slackweb.Slack(url=slack_conf["webhook_url"])
+    slack.notify(
+        channel=slack_conf["channel"],
+        username=slack_conf["username"],
+        text=slack_messeage,
+        icon_emoji=slack_conf["icon"]
+    )
+    return
 
 
 if __name__ == '__main__':
@@ -71,5 +113,5 @@ if __name__ == '__main__':
         'book': target_book,
         'highlights': highlights
     }
-    slack_message = create_message(post_info)
-    print(slack_message)
+    slack_messeage = create_message(post_info)
+    post_slack(slack_messeage, slack_conf)
