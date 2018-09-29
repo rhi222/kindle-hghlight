@@ -14,7 +14,7 @@ import random
 # 表示するハイライトの情報数
 display_highilight_number = 3
 slack_conf = {
-        "webhook_url": 'https://hooks.slack.com/services/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',  # noqa: E501
+    "webhook_url": 'https://hooks.slack.com/services/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',  # noqa: E501
     "channel": "#zzz_nishiyama_test",
     "username": "jira_bot",
     "icon": ":jira2:"
@@ -64,7 +64,10 @@ def create_message(post_info):
     highlights_message = '\n'.join(map(
         # lambda h: "- {text}".format(text=h['text'].encode('utf-8')),
         lambda h: "- <{deep_link}|{text}>".format(
-            text=h['text'].encode('utf-8'),
+            text="{text} | location:{location}".format(
+                text=h['text'].encode('utf-8'),
+                location=h['location'].encode('utf-8'),
+            ),
             deep_link="kindle://book?action=open&asin={asin}&location={location}"  # noqa: E501
                 .format(
                     asin=post_info['book']['asin'],
@@ -74,10 +77,11 @@ def create_message(post_info):
         post_info['highlights']
     ))
     message = '''
-    ■ {book_title}
+    ■ {book_title} | {author}
     {highlights_message}
     '''.format(
         book_title=post_info['book']['title'].encode('utf-8'),
+        author=post_info['book']['author'].encode('utf-8'),
         highlights_message=highlights_message
     )
     return message
