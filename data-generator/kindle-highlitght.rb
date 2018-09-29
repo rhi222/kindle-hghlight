@@ -62,6 +62,7 @@ if __FILE__ == $0
   # puts JSON.pretty_generate(output_hash)
   path = __dir__ + "/kindle.json"
   File.open(path, "w") do |f|
-    f.write(output_hash.to_json)
+    # f.write(output_hash.to_json)
+    f.write(JSON.pretty_generate(output_hash))
   end
 end
