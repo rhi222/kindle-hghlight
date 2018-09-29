@@ -106,8 +106,7 @@ def post_slack(slack_messeage, slack_conf):
     return
 
 
-if __name__ == '__main__':
-    data = get_kindle_data()
+def get_target_book_info(data):
     target_book = targetting_book_info(data)
     highlights = get_highilights_info(
         target_book['highlights'],
@@ -117,5 +116,11 @@ if __name__ == '__main__':
         'book': target_book,
         'highlights': highlights
     }
+    return post_info
+
+
+if __name__ == '__main__':
+    data = get_kindle_data()
+    post_info = get_target_book_info(data)
     slack_messeage = create_message(post_info)
     post_slack(slack_messeage, slack_conf)
