@@ -1,11 +1,12 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from flask import Flask, jsonify, render_template
+from flask import Flask, jsonify, render_template, send_from_directory
 import os
 import json
 
 
-app = Flask(__name__)
+app = Flask(__name__, static_url_path='')
+app.config["CACHE_TYPE"] = "null"
 
 
 def get_kindle_data():
@@ -22,6 +23,11 @@ def get_kindle_data():
 @app.route('/')
 def root_url():
     return render_template('index.html')
+
+
+@app.route('/build/<path:path>')
+def send_js(path):
+    return send_from_directory('build', path)
 
 
 @app.route('/hello')
