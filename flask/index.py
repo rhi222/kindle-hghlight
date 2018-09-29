@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from flask import Flask, jsonify
+from flask import Flask, jsonify, render_template
 import os
 import json
 
@@ -20,6 +20,11 @@ def get_kindle_data():
 
 
 @app.route('/')
+def root_url():
+    return render_template('index.html')
+
+
+@app.route('/hello')
 def hello():
     name = "Hello World"
     return name
