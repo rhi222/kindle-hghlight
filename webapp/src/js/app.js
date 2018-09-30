@@ -33,8 +33,9 @@ class App extends React.Component {
 				console.log(target);
 				return <li key={target.location}>{target.text}</li>
 			});
+		const title = this.state.book.title
 		return (
-			<div>
+			<div>{title}
 			<ul>{list}</ul>
 			</div>
 		);
