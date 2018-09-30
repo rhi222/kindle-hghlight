@@ -61,12 +61,9 @@ class App extends React.Component {
 			}.bind(this)
 		});
 	}
-
 }
 
 ReactDOM.render(
 	<App />,
 	document.getElementById('app')
 )
-
-alert('aaaaz');
