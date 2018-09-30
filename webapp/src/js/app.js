@@ -31,7 +31,8 @@ class App extends React.Component {
 			//})
 			.map((target) => {
 				console.log(target);
-				return <li key={target.location}>{target.text}</li>
+				const deepLink = `kindle://book?action=open&asin=${this.state.book.asin}&location=${target.location}`
+				return <li key={target.location}><a href={deepLink}>{target.text}</a></li>
 			});
 		const title = this.state.book.title
 		return (
