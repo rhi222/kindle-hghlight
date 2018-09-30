@@ -6,13 +6,38 @@ class App extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			book: undefined,
-			highlights: undefined
+			book: {
+				title: undefined,
+				author: undefined,
+				asin: undefined
+			},
+			highlights: []
 		};
 	}
 
 	getInitialState() {
 		console.log('--- initial state');
+	}
+
+	componentWillMount() {
+		console.log('----- componentWillMount');
+	}
+
+	render() {
+		console.log('----- render');
+		const list = this.state.highlights
+			//.filter((target) => {
+			//	return target.startsWith("A");
+			//})
+			.map((target) => {
+				console.log(target);
+				return <li key={target.location}>{target.text}</li>
+			});
+		return (
+			<div>
+			<ul>{list}</ul>
+			</div>
+		);
 	}
 
 	componentDidMount() {
@@ -35,22 +60,6 @@ class App extends React.Component {
 		});
 	}
 
-	render() {
-		console.log('this.state');
-		console.log(this.state);
-		const list = this.state.targets
-			//.filter((target) => {
-			//	return target.startsWith("A");
-			//})
-			.map((target) => {
-				return <li key={target}>{target}</li>
-			});
-		return (
-			<div>
-			<ul>{list}</ul>
-			</div>
-		);
-	}
 }
 
 ReactDOM.render(
@@ -58,4 +67,4 @@ ReactDOM.render(
 	document.getElementById('app')
 )
 
-alert('aaaad');
+alert('aaaaz');
