@@ -16,8 +16,8 @@ display_highilight_number = 3
 slack_conf = {
     "webhook_url": 'https://hooks.slack.com/services/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',  # noqa: E501
     "channel": "#zzz_nishiyama_test",
-    "username": "jira_bot",
-    "icon": ":jira2:"
+    "username": "kindle_highlight",
+    "icon": ":muscle3:"
 }
 
 
